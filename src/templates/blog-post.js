@@ -1,68 +1,98 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { kebabCase } from 'lodash'
-import { Helmet } from 'react-helmet'
-import { graphql, Link } from 'gatsby'
-import Layout from '../components/Layout'
-import Content, { HTMLContent } from '../components/Content'
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+import { kebabCase } from "lodash";
+import { Helmet } from "react-helmet";
+import { graphql, Link } from "gatsby";
+import Layout from "../components/Layout";
+import Content, { HTMLContent } from "../components/Content";
 
 export const BlogPostTemplate = ({
   content,
   contentComponent,
   description,
+  featuredImage,
   tags,
   title,
   helmet,
 }) => {
-  const PostContent = contentComponent || Content
+  const PostContent = contentComponent || Content;
 
   return (
-    <section className="section">
-      {helmet || ''}
-      <div className="container content">
-        <div className="columns">
-          <div className="column is-10 is-offset-1">
-            <h1 className="title is-size-2 has-text-weight-bold is-bold-light">
+    <Fragment>
+      <section
+        className="hero background-img is-large"
+        style={
+          featuredImage !== null
+            ? {
+                backgroundImage: `url(${
+                  !!featuredImage.childImageSharp
+                    ? featuredImage.childImageSharp.fluid.src
+                    : featuredImage
+                })`,
+              }
+            : {}
+        }
+      >
+        <div className="hero-body">
+          <div className="container has-text-centered">
+            <h1 className="title has-text-white is-size-1 has-text-weight-bold">
               {title}
             </h1>
-            <p>{description}</p>
-            <PostContent content={content} />
-            {tags && tags.length ? (
-              <div style={{ marginTop: `4rem` }}>
-                <h4>Tags</h4>
-                <ul className="taglist">
-                  {tags.map((tag) => (
-                    <li key={tag + `tag`}>
-                      <Link to={`/tags/${kebabCase(tag)}/`}>{tag}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
+            <a href="/author/john/" className="has-text-light is-size-4">
+              John Doe
+            </a>
           </div>
         </div>
-      </div>
-    </section>
-  )
-}
+      </section>
+      <section className="posts content">
+        {helmet || ""}
+        <div className="container">
+          <div className="columns">
+            <div className="column is-10 is-offset-1">
+              <p>{description}</p>
+              <PostContent content={content} />
+              {tags && tags.length ? (
+                <div style={{ marginTop: `4rem` }} className="posts-tags">
+                  {tags.map((tag) => (
+                    <Link
+                      key={tag + `tag`}
+                      className={`button tag-${tag} is-rounded`}
+                      title={tag}
+                      aria-label={tag}
+                      to={`/tags/${kebabCase(tag)}/`}
+                    >
+                      {tag}
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      </section>
+    </Fragment>
+  );
+};
 
 BlogPostTemplate.propTypes = {
   content: PropTypes.node.isRequired,
   contentComponent: PropTypes.func,
   description: PropTypes.string,
   title: PropTypes.string,
+  featuredImage: PropTypes.object,
   helmet: PropTypes.object,
-}
+};
 
 const BlogPost = ({ data }) => {
-  const { markdownRemark: post } = data
-
+  const { markdownRemark: post } = data;
+  console.log(post);
   return (
     <Layout>
       <BlogPostTemplate
         content={post.html}
         contentComponent={HTMLContent}
         description={post.frontmatter.description}
+        featuredImage={post.frontmatter.featuredimage}
         helmet={
           <Helmet titleTemplate="%s | Blog">
             <title>{`${post.frontmatter.title}`}</title>
@@ -76,16 +106,16 @@ const BlogPost = ({ data }) => {
         title={post.frontmatter.title}
       />
     </Layout>
-  )
-}
+  );
+};
 
 BlogPost.propTypes = {
   data: PropTypes.shape({
     markdownRemark: PropTypes.object,
   }),
-}
+};
 
-export default BlogPost
+export default BlogPost;
 
 export const pageQuery = graphql`
   query BlogPostByID($id: String!) {
@@ -95,9 +125,16 @@ export const pageQuery = graphql`
       frontmatter {
         date(formatString: "MMMM DD, YYYY")
         title
+        featuredimage {
+          childImageSharp {
+            fluid(maxWidth: 2048, quality: 100) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
         description
         tags
       }
     }
   }
-`
+`;
