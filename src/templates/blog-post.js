@@ -52,7 +52,7 @@ export const BlogPostTemplate = ({
               <p>{description}</p>
               <PostContent content={content} />
               {tags && tags.length ? (
-                <div style={{ marginTop: `4rem` }} className="posts-tags">
+                <div style={{ marginTop: `4rem` }} className="post-tags">
                   {tags.map((tag) => (
                     <Link
                       key={tag + `tag`}

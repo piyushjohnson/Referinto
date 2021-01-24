@@ -70,7 +70,6 @@ a {
 
   .navbar {
     background: transparent;
-    min-height: 4.5rem;
 
     &-menu {
       .navbar-item {
@@ -115,11 +114,13 @@ a {
 
     .title {
       margin-bottom: $spacing/2;
-      font-weight: 800 !important;
+      font-family: $family-secondary;
+      font-weight: 500 !important;
     }
 
     .subtitle {
       margin: $spacing 0 !important;
+      font-weight: 400 !important;
     }
   }
 }

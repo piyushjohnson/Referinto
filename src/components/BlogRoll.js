@@ -16,6 +16,7 @@ class BlogRoll extends React.Component {
               className="column is-12-mobile is-6-tablet is-4-widescreen is-6-desktop"
               key={post.id}
             >
+              {/* Applies border to post card if post is featured */}
               <div
                 className={`item post-card bottom-border ${
                   post.frontmatter.featuredpost ? "has-border" : ""
@@ -25,6 +26,7 @@ class BlogRoll extends React.Component {
                 {post.frontmatter.featuredimage ? (
                   <div className="featured-thumbnail">
                     <PreviewCompatibleImage
+                      isRounded={true}
                       imageInfo={{
                         image: post.frontmatter.featuredimage,
                         alt: `featured image thumbnail for post ${post.frontmatter.title}`,
@@ -33,14 +35,16 @@ class BlogRoll extends React.Component {
                   </div>
                 ) : null}
                 {/** Post Card Title */}
-                <h2 className="title item-title is-size-4 has-text-weight-extra-bold">
+                <h2 className="title item-title is-size-4 has-text-weight-extra-bold has-text-justified is-family-secondary">
                   <Link className="item-link" to={post.fields.slug}>
                     {post.frontmatter.title}
                   </Link>
                 </h2>
                 {/** Post Card Description */}
                 {!post.frontmatter.featuredpost ? (
-                  <div className="item-description">{post.excerpt}</div>
+                  <div className="item-description has-text-justified">
+                    {post.excerpt}
+                  </div>
                 ) : (
                   ""
                 )}
@@ -57,6 +61,7 @@ class BlogRoll extends React.Component {
                     </time>
                   </div>
                 </div>
+                {/* Read more link to post content */}
                 <p>
                   <Link className="button" to={post.fields.slug}>
                     Keep Reading →

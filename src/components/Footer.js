@@ -22,7 +22,7 @@ const Footer = class extends React.Component {
             <div className="columns">
               <div className="column is-4">
                 <p className="footer-link-title has-text-weight-bold">
-                  Navigation
+                  Explore
                 </p>
                 <Link to="/" className="navbar-item">
                   Home
@@ -30,29 +30,28 @@ const Footer = class extends React.Component {
                 <Link className="navbar-item" to="/about">
                   About
                 </Link>
-                <Link className="navbar-item" to="/contact/examples">
-                  Form Examples
+                <Link className="navbar-item" to="/blog">
+                  Latest Stories
                 </Link>
-                <a
+                {/* <Link className="navbar-item" to="/contact/examples">
+                  Form Examples
+                </Link> */}
+                {/* <a
                   className="navbar-item"
                   href="/admin/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   Admin
-                </a>
+                </a> */}
               </div>
               <div className="column is-4">
                 <p className="footer-link-title has-text-weight-bold">
-                  Contact
+                  Get in touch
                 </p>
-                <Link className="navbar-item" to="/blog">
-                  Latest Stories
-                </Link>
-
                 <Link className="navbar-item" to="/contact">
-                  Contact
-                </Link>
+                  Contact Us
+                </Link> 
               </div>
               <div className="column is-4 social">
                 <p className="footer-link-title has-text-weight-bold">
